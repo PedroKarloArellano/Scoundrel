@@ -34,12 +34,17 @@
     <div class="cardsLeft container hidden">Cards Left: 20</div>
     </div>
 
+    <!--DECK CARD HOLDER-->
+
     <div class="cards container hidden">
         <img class="card " id="card1" src="./images/Unused Cards/ace_of_diamonds.png">
         <img class="card " id="card2" src="./images/Unused Cards/ace_of_diamonds.png">
         <img class="card " id="card3" src="./images/Unused Cards/ace_of_diamonds.png">
         <img class="card " id="card4" src="./images/Unused Cards/ace_of_diamonds.png">
     </div>
+
+
+    <!--ACTIONS HOLDER-->
 
     <div class="actions container hidden">
         <button id="avoid" onclick="avoidRoom();">Avoid Room</button>
@@ -49,7 +54,9 @@
         <button class="hidden" id="potion" onclick="usePotion();">Use Potion</button>
     </div>
 
-    <div class="cards selection container hidden">
+    <!--WEAPON/SELECTED CARD HOLDER-->
+
+    <div id="selection" class="selection container hidden">
         <img id="weapon" src="./images/00_no_weapon.png">
         <img id="selectedCard" src="./images/empty.png">
     </div>
@@ -78,4 +85,3 @@
     <script src="./game.js"></script>
 </body>
 </html>
-
