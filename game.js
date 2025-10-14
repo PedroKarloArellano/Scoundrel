@@ -380,6 +380,12 @@ $(document).keypress(function(){
     }
 });
 
+$(".startGameButton").click(function(){
+    if(started === 0){
+        startGame();
+    }
+});
+
 function startGame(){
     healthPoints = 20;
     started = 0;
