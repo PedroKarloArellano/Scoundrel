@@ -139,4 +139,10 @@ button{
     button{
         width: 130px;
     }
+       
+    .congratulations img{
+    height: 200px;
+    margin: 20px;
+    }
 }
+
