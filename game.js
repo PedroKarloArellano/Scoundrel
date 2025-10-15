@@ -81,6 +81,7 @@ function detectType(card){
 }
 
 function avoidRoom(){
+
     if(avoid === 0){
         if(usedCounter === 0){
             for(i = 0;i<4;i++){
@@ -88,12 +89,20 @@ function avoidRoom(){
             removeUsed("#card"+(i+1));
 
             addUsed("#avoid");
+
+            changeImage("#selectedCard","images/empty.png");
+            removeSelected("#selectedCard");
         }
+        
+            avoidSound.play();
             avoid++;
+
         }else{
+            wrongSound.play();
             $('.title').html("<h1><strong>Can't</strong> scape an started room</h1>");
         }
     }else{
+        wrongSound.play();
         $('.title').html("<h1><strong>Can't</strong> avoid a room two times in a row</h1>");
     }
 
@@ -127,8 +136,11 @@ function completedRoom(){
         updateCardsLeft();
         potionCounter = 0;
 
+        completeRoomSound.play();
+
         addHidden("#completeRoom");
         removeHidden("#avoid");
+        removeUsed("#avoid");
         removeHidden("#fight");
         if(detectValue(weapon) != 0){
             removeHidden("#deteachWeapon");
@@ -161,6 +173,7 @@ function completedRoom(){
 
         addHidden("#completeRoom");
         removeHidden("#avoid");
+        removeUsed("#avoid");
         removeHidden("#fight");
         if(detectValue(weapon) != 0){
             removeHidden("#deteachWeapon");
@@ -203,6 +216,8 @@ function newRoom(){
 
         addHidden(".container");
 
+        victorySound.play();
+
         changeTitle("<h1>You just <strong>WON</strong></h1><h2>CONGRATULATIONS</h2>");
         removeHidden(".health");
         removeHidden(".congratulations");
@@ -225,6 +240,8 @@ function sendToBottom(card){
 }
 
 function usePotion(){
+
+    potionSound.play();
 
     var valuePotion = detectValue(potion);
 
@@ -325,6 +342,9 @@ function getCardIndex(card){
 function diamondsFunction(selectedCard,cardID,cardName){
 
     if(detectUsed(cardID) == false){
+        
+        swordDrawSound.play();
+        
         addEquipped("#weapon");
         changeImage("#weapon","./images/"+ cardName);   
 
@@ -345,24 +365,32 @@ function diamondsFunction(selectedCard,cardID,cardName){
         changeImage("#attached","./images/empty.png");
     }
     else{
+        wrongSound.play();
         changeTitle("<h1>You can't use this <strong>weapon</strong></h1>");
     }
 }
 
 function monsterFunction(cardName){
+    monsterSound.play();
     monster = cardName;
     changeTitle("<h1>You selected a <strong>monster</strong></h1>");
 }
 
 function potionFunction(cardID,cardName){
+
     if(detectUsed(cardID) == false){
         potion = cardName;
         removeHidden("#potion");
+
+        healthSound.play();
         changeTitle("<h1>You selected a <strong>potion</strong></h1>");
     }
 }
 
 function deteachWeapon(){
+
+    detachSound.play();
+
     changeImage("#weapon","./images/00_no_weapon.png");
     weapon = "00_no_weapon.png";
     console.log(weapon);
@@ -374,16 +402,18 @@ function deteachWeapon(){
 }
 
 //------------------INITIALIZE GAME-----------------//
-$(document).keypress(function(){
-    if(started === 0){
-        startGame();
-    }
-});
+// $(document).keypress(function(){
+//     if(started === 0){
+//         startGame();
+//     }
+// });
 
 $(".startGameButton").click(function(){
     if(started === 0){
         startGame();
     }
+
+    removeHidden(".title");
 });
 
 function startGame(){
@@ -416,6 +446,7 @@ function startGame(){
 
     removeSelected("#selectedCard");
     removeEquipped("#weapon");
+    removeUsed("#avoid");
 
     addHidden(".instructions");
 
@@ -512,14 +543,21 @@ function fight(){
 
                 if(damage < 0){
                     damage = 0;
+                }else if(damage != 0){
+                    damageSound.play();
                 }
 
                 healthPoints = healthPoints - damage;
 
+                fightSound.play();
+
                 updateHealth(healthPoints);
                 updateCardsLeft();
 
+                //--------------------LOSE CONDITION------------------------
                 if(healthPoints <= 0){
+                    loseSound.play();
+                    deathSound.play();
                     changeTitle("<h1>YOU LOSED</h1>");
                     addHidden(".container");
                     removeHidden("#restart");
@@ -527,8 +565,9 @@ function fight(){
                 }
 
                 //Final Steps
+
                 avoid = 0;
-                removeUsed("#avoid");
+                addUsed("#avoid");
 
                 addUsed(selectedCardID);
                 usedCounter++;
@@ -546,6 +585,7 @@ function fight(){
                 }
 
             }else{
+                wrongSound.play();
                 changeTitle("<h1>You can't fight a <strong>STRONGER</strong> monster until you <strong>change</strong> weapons</h1>");
             }
         }else{
@@ -577,3 +617,94 @@ function restart(){
 
     startGame();
 }
+
+//SOUNDS CONTROL
+const soundTrack = new Audio("sounds/soundtrack.mp3");
+const fightSound = new Audio("sounds/sword-slice.mp3");
+const avoidSound = new Audio("sounds/bongo-drum-roll.mp3");
+const detachSound = new Audio("sounds/detach-sword.mp3");
+const potionSound = new Audio("sounds/drink.mp3");
+const swordDrawSound = new Audio("sounds/weapon.mp3");
+const wrongSound = new Audio("sounds/wrong.mp3");
+const loseSound = new Audio("sounds/lose-Sound.mp3");
+const victorySound = new Audio("sounds/win.mp3");
+const monsterSound = new Audio("sounds/monster.mp3");
+const healthSound = new Audio("sounds/health.mp3");
+const completeRoomSound = new Audio("sounds/swipe.mp3");
+const damageSound = new Audio("sounds/damage.mp3")
+const deathSound = new Audio("sounds/death.mp3")
+
+
+function setMaxAudioValue(fileName, volValue){
+    fileName.volume = volValue;
+    return fileName.volume;
+}
+
+//SET SOUNDS VOL
+setMaxAudioValue(fightSound, .25);
+setMaxAudioValue(avoidSound, .25);
+setMaxAudioValue(detachSound, .25);
+setMaxAudioValue(potionSound, .4);
+setMaxAudioValue(swordDrawSound, .25);
+setMaxAudioValue(wrongSound, .25);
+setMaxAudioValue(loseSound, .25);
+setMaxAudioValue(victorySound, .25);
+setMaxAudioValue(monsterSound, .15);
+setMaxAudioValue(healthSound, .25);
+setMaxAudioValue(completeRoomSound, .4);
+setMaxAudioValue(damageSound, .4);
+setMaxAudioValue(deathSound, .4);
+
+
+//ACURATE VOL SLIDER
+const logDBRange = 60;
+const log_a = 1 / 10 ** (logDBRange / 20);
+const log_b = Math.log(1 / log_a);
+const log_rolloff = 10 * log_a * Math.exp(log_b * 0.1);
+
+
+function playMusic(){    
+    soundTrack.play();
+    addHidden("#soundButton");
+    removeHidden("#sliderContainer");
+}
+
+soundTrack.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
+
+$("#volume-control").on("change", function(){
+    
+    var vcStatus = this.value;
+
+    soundTrack.volume = Math.pow(vcStatus,4);
+    console.log(this.value + " st Vol " + soundTrack.volume);
+
+    if(soundTrack.volume === 0){
+        changeImage("#soundIcon", "images/mute.svg");
+    }
+    else{
+        changeImage("#soundIcon", "images/speaker.svg");
+    }
+});
+
+$("#soundIcon").on("click", function(){
+    
+    if($("#soundIcon").attr("src").includes("images/speaker.svg") === true){
+        changeImage("#soundIcon", "images/mute.svg");
+        soundTrack.volume = 0;
+    }
+    else{
+        
+        changeImage("#soundIcon", "images/speaker.svg");
+        soundTrack.volume = 1;
+        $("#volume-control").attr("value", function(){
+            this.value = 1;
+        });
+    }
+
+})
+
+
+
