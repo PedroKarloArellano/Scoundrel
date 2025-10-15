@@ -373,6 +373,7 @@ function diamondsFunction(selectedCard,cardID,cardName){
 function monsterFunction(cardName){
     monsterSound.play();
     monster = cardName;
+    removeHidden("#fight");
     changeTitle("<h1>You selected a <strong>monster</strong></h1>");
 }
 
@@ -381,6 +382,8 @@ function potionFunction(cardID,cardName){
     if(detectUsed(cardID) == false){
         potion = cardName;
         removeHidden("#potion");
+        console.log("tryhard");
+        addHidden("#fight");
 
         healthSound.play();
         changeTitle("<h1>You selected a <strong>potion</strong></h1>");
@@ -626,7 +629,7 @@ const detachSound = new Audio("sounds/detach-sword.mp3");
 const potionSound = new Audio("sounds/drink.mp3");
 const swordDrawSound = new Audio("sounds/weapon.mp3");
 const wrongSound = new Audio("sounds/wrong.mp3");
-const loseSound = new Audio("sounds/lose-Sound.mp3");
+const loseSound = new Audio("sounds/lose-sound.mp3");
 const victorySound = new Audio("sounds/win.mp3");
 const monsterSound = new Audio("sounds/monster.mp3");
 const healthSound = new Audio("sounds/health.mp3");
