@@ -9,25 +9,36 @@
 </head>
 <body>
 
-    
-
     <div class="instructions">
-    <h1>WELCOME TO SCOUNDREL</h1>
-    <p>The 26 Clubs and Spades in the deck are Monsters.</p>
-    <p>Their damage is equal to their ordered value. (e.g.10 is 10, Jack is 11, Queen is 12, King is 13, and Ace is 14)</p>
-    <p>The 9 Diamonds in the deck are Weapons. Each weapon does as much damage as its value.</p>
-    <p>All weapons in Scoundrel are binding, meaning if you pick one up, you must equip it, and discard your previous weapon.</p>
-    <p>The 9 Hearts in the deck are Health Potions. You may only use one health potion each turn, even if you pull two. The second potion you pull is simply discarded.</p>
-    <p>You may not restore your life beyond your starting 20 health.</p>
-    <p>The Game ends when either your life reaches 0 or you make your way through the entire Dungeon. </p>
+        <h1>WELCOME TO SCOUNDREL</h1>
+        <p>The 26 Clubs and Spades in the deck are Monsters.</p>
+        <p>Their damage is equal to their ordered value. (e.g.10 is 10, Jack is 11, Queen is 12, King is 13, and Ace is 14)</p>
+        <p>The 9 Diamonds in the deck are Weapons. Each weapon does as much damage as its value.</p>
+        <p>All weapons in Scoundrel are binding, meaning if you pick one up, you must equip it, and discard your previous weapon.</p>
+        <p>The 9 Hearts in the deck are Health Potions. You may only use one health potion each turn, even if you pull two. The second potion you pull is simply discarded.</p>
+        <p>You may not restore your life beyond your starting 20 health.</p>
+        <p>The Game ends when either your life reaches 0 or you make your way through the entire Dungeon. </p>
 
-    <button type="button" onclick="window.location.href='http://stfj.net/art/2011/Scoundrel.pdf'">See full instructions</button>
-    <button type="button" class="startGameButton" id="Start Game" onclick="startGame();">Press Here to Start</button>
+        <button id="soundButton" onclick="playMusic();"><img src="./images/audio.svg"></button>
+        <button type="button" onclick="window.location.href='http://stfj.net/art/2011/Scoundrel.pdf'">See full instructions</button>
+        <button type="button" class="startGameButton" id="Start Game" onclick="startGame();">Press Here to Start</button>
+        
+        
+        <div id="sliderContainer" class="hidden">
+            <img id="soundIcon" src="images/speaker.svg" height="20px">
+            <input type="range" min="0" max="1" value="1" step="0.01" id="volume-control">
+        </div>
+
+           
     </div>
 
-    <div class="title">
+   
+
+    <div class="title hidden">
         <h1>Press a <strong>key</strong> to start</h1>
     </div>
+
+    
 
     <div class="info">
     <div class="health container hidden">Health points: 20</div>
@@ -37,10 +48,10 @@
     <!--DECK CARD HOLDER-->
 
     <div class="cards container hidden">
-        <img class="card " id="card1" src="./images/Unused Cards/ace_of_diamonds.png">
-        <img class="card " id="card2" src="./images/Unused Cards/ace_of_diamonds.png">
-        <img class="card " id="card3" src="./images/Unused Cards/ace_of_diamonds.png">
-        <img class="card " id="card4" src="./images/Unused Cards/ace_of_diamonds.png">
+        <img class="card " id="card1" src="./images/empty.png">
+        <img class="card " id="card2" src="./images/empty.png">
+        <img class="card " id="card3" src="./images/empty.png">
+        <img class="card " id="card4" src="./images/empty.png">
     </div>
 
 
@@ -49,9 +60,9 @@
     <div class="actions container hidden">
         <button id="avoid" onclick="avoidRoom();">Avoid Room</button>
         <button id="fight" onclick="fight();">Fight!</button>
+        <button class="hidden" id="potion" onclick="usePotion();">Use Potion</button>
         <button class="hidden" id="deteachWeapon" onclick="deteachWeapon();">Detach Weapon</button>
         <button class="hidden" id="completeRoom" onclick="completedRoom();">Complete Room!</button>
-        <button class="hidden" id="potion" onclick="usePotion();">Use Potion</button>
     </div>
 
     <!--WEAPON/SELECTED CARD HOLDER-->
