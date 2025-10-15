@@ -39,6 +39,11 @@ button{
     border-radius: 25px;
 }
 
+#soundButton{
+    border-radius: 20px;
+    width: 50px;
+}
+
 #avoid{
     background-color: rgb(255, 255, 50);
 }
@@ -94,7 +99,7 @@ button{
 
 .otherCards img{
     height: 150px;
-    opacity: 40%;
+    opacity: 80%;
     justify-content: left;
     align-items: flex-start;
 }
@@ -139,10 +144,9 @@ button{
     button{
         width: 130px;
     }
-       
+
     .congratulations img{
     height: 200px;
     margin: 20px;
     }
 }
-
